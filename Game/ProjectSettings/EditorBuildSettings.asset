@@ -5,9 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Niraj/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Niraj/Scenes/Main Menu.unity
+    guid: c3f28883719dd0e43a547046f16f5772
+  - enabled: 1
+    path: Assets/Niraj/Scenes/MainScene.unity
+    guid: 81dc0833f489b03478fe235db71256ac
+  - enabled: 1
+    path: Assets/Niraj/Scenes/Credits.unity
+    guid: 1f2ee13bde2149942838e4cec8785adb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
