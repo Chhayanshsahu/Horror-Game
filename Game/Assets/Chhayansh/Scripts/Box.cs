@@ -6,10 +6,10 @@ public class Box : MonoBehaviour
     //public GameObject keyOBNeeded;
     public GameObject openText;
    // public GameObject keyMissingText;
-   // public AudioSource openSound;
+   public AudioSource openSound;
 
     public bool inReach;
-    //public bool isOpen;
+   // public bool isOpen;
 
 
 
@@ -48,7 +48,7 @@ public class Box : MonoBehaviour
         if (inReach && Input.GetKeyDown(KeyCode.E))
         {
           //  keyOBNeeded.SetActive(false);
-//            openSound.Play();
+              openSound.Play();
            boxOB.SetBool("open", true);
             openText.SetActive(false);
           //  keyMissingText.SetActive(false);
