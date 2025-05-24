@@ -19,7 +19,7 @@ public class SimpleFPS : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         // Lock the cursor to the center of the screen
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()

@@ -39,7 +39,7 @@ public class BatteryPickUp : MonoBehaviour
 
 
 
-
+ 
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.E) && inReach)

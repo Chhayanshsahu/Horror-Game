@@ -5,90 +5,90 @@ using TMPro;
 
 public class FlashLight : MonoBehaviour
 {
-    public Light light;
+    public Light flashlightLight;
     public TMP_Text text;
-
     public TMP_Text batteryText;
 
-    public float lifetime = 100;
-
-    public float batteries = 0;
+    public float lifetime = 100f;
+    public float batteries = 0f;
 
     public AudioSource flashON;
     public AudioSource flashOFF;
 
-    private bool on;
-    private bool off;
-
+    private bool isOn;
 
     void Start()
     {
-        light = GetComponent<Light>();
-
-        off = true;
-        light.enabled = false;
-
+        flashlightLight = GetComponent<Light>();
+        flashlightLight.enabled = false;
+        isOn = false;
     }
-
-
 
     void Update()
     {
-        text.text = "Flashlight: "+ lifetime.ToString("0") + "%";
-        batteryText.text = "Battery: "+ batteries.ToString();
+        UpdateUI();
 
-        if(Input.GetKeyDown(KeyCode.F) && off)
+        HandleFlashlightToggle();
+        HandleBatteryUsage();
+
+        if (isOn)
         {
-            flashON.Play();
-            light.enabled = true;
-            on = true;
-            off = false;
+            DrainBattery();
         }
 
-        else if (Input.GetKeyDown(KeyCode.F) && on)
+        ClampValues();
+
+        if (lifetime <= 0 && isOn)
         {
+            flashlightLight.enabled = false;
             flashOFF.Play();
-            light.enabled = false;
-            on = false;
-            off = true;
+            isOn = false;
         }
 
-        if (on)
+        // OPTIONAL: Flicker effect at low battery
+        if (isOn && lifetime < 10f)
         {
-            lifetime -= 1 * Time.deltaTime;
+            flashlightLight.enabled = Mathf.Sin(Time.time * 20f) > 0;
         }
-
-        if(lifetime <= 0)
-        {
-            light.enabled = false;
-            on = false;
-            off = true;
-            lifetime = 0;
-        }
-
-        if (lifetime >= 100)
-        {
-            lifetime = 100;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R)&& batteries >= 1)
-        {
-            batteries -= 1;
-            lifetime += 50;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R)&& batteries == 0)
-        {
-            return;
-        }
-
-        if(batteries <= 0)
-        {
-            batteries = 0;
-        }
-
-
-
     }
 
+    void UpdateUI()
+    {
+        text.text = $"Flashlight: {lifetime:0}%";
+        batteryText.text = $"Battery: {batteries}";
+    }
+
+    void HandleFlashlightToggle()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            isOn = !isOn;
+            flashlightLight.enabled = isOn;
+
+            if (isOn)
+                flashON.Play();
+            else
+                flashOFF.Play();
+        }
+    }
+
+    void HandleBatteryUsage()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && batteries > 0)
+        {
+            batteries--;
+            lifetime += 50f;
+        }
+    }
+
+    void DrainBattery()
+    {
+        lifetime -= Time.deltaTime;
+    }
+
+    void ClampValues()
+    {
+        lifetime = Mathf.Clamp(lifetime, 0f, 100f);
+        batteries = Mathf.Max(0f, batteries);
+    }
 }
