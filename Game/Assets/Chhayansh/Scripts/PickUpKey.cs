@@ -4,7 +4,8 @@ public class PickUpKey : MonoBehaviour
 {
 
     public GameObject Key;
-    public GameObject Inventry;
+    public GameObject MainKey;
+    public GameObject officeKey;
     public GameObject pickUpText;
     public AudioSource KeySound;
 
@@ -13,8 +14,9 @@ public class PickUpKey : MonoBehaviour
     void Start()
     {
         inReach = false;
-        Inventry.SetActive(false);
-        pickUpText.SetActive(false);
+        MainKey.SetActive(false);
+        officeKey.SetActive(false);
+       pickUpText.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
@@ -30,7 +32,7 @@ public class PickUpKey : MonoBehaviour
         if(other.gameObject.tag == "Reach")
         {
             inReach = false;
-            pickUpText.SetActive(false);
+            
         }
     }
 
@@ -39,9 +41,17 @@ public class PickUpKey : MonoBehaviour
     {
         if(inReach && Input.GetKeyDown(KeyCode.E))
         {
+            if(gameObject.CompareTag("MainKey"))
+             {
+                 MainKey.SetActive(true);
+             }
+            else if (gameObject.CompareTag("OfficeKey"))
+            {
+                officeKey.SetActive(true);
+            }
+            
             Key.SetActive(false);
             KeySound.Play();
-            Inventry.SetActive(true);
             pickUpText.SetActive(false);
         }
         

@@ -53,7 +53,7 @@ public class Door : MonoBehaviour
         }
         else
         {
-            doorObject.transform.rotation = Quaternion.Slerp(doorObject.transform.rotation, closedRotation, Time.deltaTime * rotationSpeed);
+             
         }
     }
 }
