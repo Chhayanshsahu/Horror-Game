@@ -11,6 +11,8 @@ public class KeyPad : MonoBehaviour
     public GameObject Keypad;
     public GameObject hud;
     public GameObject inv;
+    public GameObject Key;
+    
 
     public TMP_Text textOB;
     public string answer = "0000";
@@ -29,6 +31,7 @@ public class KeyPad : MonoBehaviour
     void Start()
     {
         Keypad.SetActive(false);
+        Key.SetActive(false);
         isLocked = false;
         openRoation = Quaternion.Euler(_lock.transform.eulerAngles + new Vector3(0, openAngle, 0)) ;
     }
@@ -51,6 +54,8 @@ public class KeyPad : MonoBehaviour
             textOB.text = "Unlocked";
             Invoke("Exit", 1.5f);
             isLocked = true;
+            Key.SetActive(true);
+            
         }
         else
         {
@@ -68,6 +73,7 @@ public class KeyPad : MonoBehaviour
     public void Exit()
     {
         Keypad.SetActive(false);
+        
         inv.SetActive(true);
         hud.SetActive(true);
         player.GetComponent<SimpleFPS>().enabled = true;
@@ -90,7 +96,7 @@ public class KeyPad : MonoBehaviour
         if (isLocked)
         {
             _lock.transform.rotation = Quaternion.Slerp(_lock.transform.rotation, openRoation, Time.deltaTime * rotationSpeed);
-            Debug.Log("Opening");
+            
         }
     }
 }

@@ -2,70 +2,58 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-     public Animator boxOB;
-    //public GameObject keyOBNeeded;
+    public Animator boxOB;
     public GameObject openText;
-   // public GameObject keyMissingText;
-   public AudioSource openSound;
+    public GameObject Battery;
+    public AudioSource openSound;
 
-    public bool inReach;
-   // public bool isOpen;
-
-
+    private bool inReach;
+    private bool isOpened = false;
 
     void Start()
     {
         inReach = false;
         openText.SetActive(false);
-     //   keyMissingText.SetActive(false);
-    }
 
+        if(Battery != null)
+        {
+        Battery.SetActive(false);
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.CompareTag("Reach"))
         {
             inReach = true;
-            openText.SetActive(true);
-
+            if (!isOpened)
+                openText.SetActive(true);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.CompareTag("Reach"))
         {
             inReach = false;
             openText.SetActive(false);
-        //    keyMissingText.SetActive(false);
         }
     }
 
-
     void Update()
     {
-        //if (keyOBNeeded.activeInHierarchy == true && inReach && Input.GetKeyDown(KeyCode.E))
-        if (inReach && Input.GetKeyDown(KeyCode.E))
+        if (inReach && Input.GetKeyDown(KeyCode.E) && !isOpened)
         {
-          //  keyOBNeeded.SetActive(false);
-              openSound.Play();
-           boxOB.SetBool("open", true);
-            openText.SetActive(false);
-          //  keyMissingText.SetActive(false);
-          //  isOpen = true;
-        }
+            openSound.Play();
+            boxOB.SetBool("open", true);
 
-       // else if (keyOBNeeded.activeInHierarchy == false && inReach && Input.GetKeyDown(KeyCode.E))
-        else if ( inReach && Input.GetKeyDown(KeyCode.E))
-        {
-            openText.SetActive(false);
-           // keyMissingText.SetActive(true);
-        }
+            if(Battery != null)
+            {
+            Battery.SetActive(true);
+            }
 
-        // if(isOpen)
-        // {
-        //     boxOB.GetComponent<BoxCollider>().enabled = false;
-        //     boxOB.GetComponent<OpenBoxScript>().enabled = false;
-        // }
+            openText.SetActive(false);
+            isOpened = true;
+        }
     }
 }

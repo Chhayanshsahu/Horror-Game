@@ -4,16 +4,15 @@ using UnityEngine;
 public class Vault : MonoBehaviour
 {
     public GameObject padlock;
-   
-
-    
     private bool inReach;
+    
     
   
 
     void Start()
     {
         inReach = false;
+       // isOpen = false;
        
      
     }
@@ -39,7 +38,7 @@ public class Vault : MonoBehaviour
 
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E))
+        if (inReach && Input.GetKeyDown(KeyCode.E) )
         {
             padlock.SetActive(true);
         
