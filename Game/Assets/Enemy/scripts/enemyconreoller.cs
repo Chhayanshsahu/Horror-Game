@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -64,22 +65,19 @@ public class EnemyController : MonoBehaviour
                 UpdateChase();
                 break;
             case AISTATE.ATTACK:
-                UpdateAttack(); // Added missing method call
+                UpdateAttack();
                 break;
         }
     }
 
-    // Added missing UpdateAttack method
     void UpdateAttack()
     {
         if (player == null) return;
 
-        // Face the player while attacking
         Vector3 direction = (player.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
 
-        // Check if player moved out of range
         if (Vector3.Distance(transform.position, player.position) > attackRange)
         {
             StartChase();
@@ -151,13 +149,17 @@ public class EnemyController : MonoBehaviour
     {
         canAttack = false;
 
-        // Wait for attack animation duration
         yield return new WaitForSeconds(attackCooldown);
+
+        // Load Game Over scene when touching player
+        if (Vector3.Distance(transform.position, player.position) <= attackRange)
+        {
+            SceneManager.LoadScene(3);
+        }
 
         canAttack = true;
         enemy.isStopped = false;
 
-        // Check if should resume chase
         if (Vector3.Distance(transform.position, player.position) > attackRange)
         {
             StartChase();

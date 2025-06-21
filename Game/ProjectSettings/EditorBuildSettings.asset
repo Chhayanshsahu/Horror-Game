@@ -4,6 +4,18 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Main menu/Scenes/mainmenu.unity
+    guid: f5d622d69fed1a944bb6767bdfb83571
+  - enabled: 1
+    path: Assets/Enemy/gaurd.unity
+    guid: 81dc0833f489b03478fe235db71256ac
+  - enabled: 1
+    path: Assets/Enemy/Credits/Credts'.unity
+    guid: fbe3a0ecb9579b740b72899a2f16169c
+  - enabled: 1
+    path: Assets/Enemy/Game Over/Game Over.unity
+    guid: affccfbf102318e428741801be045efa
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
