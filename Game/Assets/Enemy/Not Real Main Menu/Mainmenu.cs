@@ -5,7 +5,7 @@ public class Mainmenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene(1); // Load guard scene
+        SceneManager.LoadScene(1); // Load Mainscene
     }
 
     public void ShowCredits()
