@@ -11,6 +11,8 @@ namespace Gentleland.StemapunkUI.DemoAndExample
         float[] shifts;
         float[] fillTimeInSeconds;
         float[] durations = { 0.75f, 1.0f, 1.2f, 1.5f, 2.0f, 3.0f };
+
+        [System.Obsolete]
         private void Start()
         {
             sliders = FindObjectsOfType<Slider>();

@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Chhayansh/Scenes/mainmenu.unity
     guid: f5d622d69fed1a944bb6767bdfb83571
   - enabled: 1
-    path: Assets/Chhayansh/Scenes/Protot.unity
+    path: Assets/Chhayansh/Scenes/MainGame.unity
     guid: 2cb1ddb491d825e4db98fd06f5cc5fda
   - enabled: 1
     path: Assets/Chhayansh/Scenes/Credts'.unity
