@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;  // Needed for UI elements
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -7,30 +8,23 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Reference to the main player camera")]
     public Camera playerCamera;
 
+    [Tooltip("Reference to the Help UI Panel")]
+    [SerializeField] private GameObject helpPanel;
+
     [Header("Movement Settings")]
-    [Tooltip("Base movement speed in meters/second")]
     [SerializeField] private float walkSpeed = 6f;
-    [Tooltip("Sprinting speed in meters/second")]
     [SerializeField] private float runSpeed = 12f;
-    [Tooltip("Crouching speed in meters/second")]
     [SerializeField] private float crouchSpeed = 3f;
-    [Tooltip("Jump force in meters/second")]
     [SerializeField] private float jumpPower = 7f;
-    [Tooltip("Gravity force applied to the player")]
     [SerializeField] private float gravity = 10f;
 
     [Header("Look Settings")]
-    [Tooltip("Mouse sensitivity")]
     [SerializeField] private float lookSpeed = 2f;
-    [Tooltip("Vertical look limit in degrees")]
     [SerializeField] private float lookXLimit = 45f;
 
     [Header("Crouch Settings")]
-    [Tooltip("Default character controller height")]
     [SerializeField] private float defaultHeight = 2f;
-    [Tooltip("Crouching character controller height")]
     [SerializeField] private float crouchHeight = 1f;
-    [Tooltip("Time to transition between standing and crouching")]
     [SerializeField] private float crouchTransitionTime = 0.2f;
 
     private CharacterController characterController;
@@ -41,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool isCrouching = false;
     private float currentHeight;
     private Vector3 currentCenter;
+    private bool isHelpActive = false; // Tracks help panel state
 
     private bool CanMove => Cursor.lockState == CursorLockMode.Locked;
 
@@ -50,19 +45,33 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // Store original values
+        // Save original speed and collider values
         originalWalkSpeed = walkSpeed;
         originalRunSpeed = runSpeed;
         currentHeight = defaultHeight;
         currentCenter = Vector3.up * defaultHeight * 0.5f;
+
+        // Make sure help panel is off at start
+        if (helpPanel) helpPanel.SetActive(false);
     }
 
     void Update()
     {
+        HandleHelpToggle();       // New help toggle logic
         HandleMovement();
         HandleLookRotation();
         HandleJump();
         HandleCrouch();
+    }
+
+    private void HandleHelpToggle()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            isHelpActive = !isHelpActive;
+            if (helpPanel)
+                helpPanel.SetActive(isHelpActive);
+        }
     }
 
     private void HandleMovement()
@@ -71,14 +80,14 @@ public class PlayerController : MonoBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         bool isRunning = Input.GetKey(KeyCode.LeftShift) && !isCrouching;
-        float speedMultiplier = isRunning ? runSpeed : walkSpeed;
+        float speed = isRunning ? runSpeed : walkSpeed;
 
         Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         input = Vector2.ClampMagnitude(input, 1f);
 
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * input.y + right * input.x) * speedMultiplier;
-        moveDirection.y = movementDirectionY;
+        float verticalVelocity = moveDirection.y;
+        moveDirection = (forward * input.y + right * input.x) * speed;
+        moveDirection.y = verticalVelocity;
 
         ApplyGravity();
         characterController.Move(moveDirection * Time.deltaTime);
@@ -142,8 +151,7 @@ public class PlayerController : MonoBehaviour
 
     private bool CheckCeiling()
     {
-        return Physics.Raycast(transform.position, Vector3.up,
-               defaultHeight * 0.5f + 0.1f);
+        return Physics.Raycast(transform.position, Vector3.up, defaultHeight * 0.5f + 0.1f);
     }
 
     private void UpdateCharacterControllerSize()
@@ -153,10 +161,8 @@ public class PlayerController : MonoBehaviour
 
         if (Mathf.Abs(currentHeight - targetHeight) > 0.01f)
         {
-            currentHeight = Mathf.Lerp(currentHeight, targetHeight,
-                Time.deltaTime / crouchTransitionTime);
-            currentCenter = Vector3.Lerp(currentCenter, targetCenter,
-                Time.deltaTime / crouchTransitionTime);
+            currentHeight = Mathf.Lerp(currentHeight, targetHeight, Time.deltaTime / crouchTransitionTime);
+            currentCenter = Vector3.Lerp(currentCenter, targetCenter, Time.deltaTime / crouchTransitionTime);
 
             characterController.height = currentHeight;
             characterController.center = currentCenter;
