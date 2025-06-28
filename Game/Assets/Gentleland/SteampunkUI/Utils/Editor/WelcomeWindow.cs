@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -68,7 +69,6 @@ Thank you for acquiring this asset pack from the Unity Asset Store!
 We are a growing art outsourcing agency and are very thankful for your support!
 If you like this asset pack, please consider leaving a review on the Unity Asset Store or recommend us to your friends! This would help us greatly!
 
-
 If you encounter problems of any kind, checkout the documentation and feel free to reach out!
 We will help you further.
 
@@ -93,6 +93,6 @@ CEO - Gentleland"
             }
             GUILayout.EndArea();
         }
-
     }
 }
+#endif
