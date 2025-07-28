@@ -8,6 +8,11 @@ TagManager:
   - Reach
   - MainKey
   - OfficeKey
+  - Flashlight
+  - Door
+  - Drawer
+  - Battery
+  - Ground
   layers:
   - Default
   - TransparentFX

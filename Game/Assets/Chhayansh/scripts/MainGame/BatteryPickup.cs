@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BatteryPickUp : MonoBehaviour
@@ -39,10 +37,10 @@ public class BatteryPickUp : MonoBehaviour
 
 
 
- 
+
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && inReach)
+        if (Input.GetKeyDown(KeyCode.E) && inReach)
         {
             flashlight.GetComponent<FlashLight>().batteries += 1;
             pickUpSound.Play();
@@ -50,6 +48,6 @@ public class BatteryPickUp : MonoBehaviour
             pickUpText.SetActive(false);
             Destroy(gameObject);
         }
-        
+
     }
 }
